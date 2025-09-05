@@ -1,0 +1,17 @@
+#!/bin/sh
+# Resolve all dependencies that the application requires to run.
+
+# Stop on errors
+set -e
+
+cd "$(realpath "$(dirname "$0")/..")"
+
+echo "Installing development dependencies..."
+uv pip install wheel --constraint homeassistant/package_constraints.txt --upgrade
+uv pip install \
+  -e . \
+  -r requirements_test.txt \
+  colorlog \
+  --constraint homeassistant/package_constraints.txt \
+  --upgrade \
+  --config-settings editable_mode=compat
